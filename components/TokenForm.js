@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function TokenForm() {
   const [tokenId, setTokenId] = useState("");
   const [contractAddress, setContractAddress] = useState("");
-  const [chain, setChain] = useState("base");
+  const [chain, setChain] = useState("zora");
   const [tokenData, setTokenData] = useState(null);
 
   const fetchData = async () => {
@@ -44,8 +44,8 @@ export default function TokenForm() {
         onChange={(e) => setChain(e.target.value)}
         className="p-2 border rounded"
       >
-        <option value="base">Base</option>
         <option value="zora">Zora</option>
+        <option value="base">Base</option>
       </select>
       <button onClick={handleSubmit}>SUBMIT</button>
 
@@ -59,7 +59,7 @@ export default function TokenForm() {
               tokenData?.media?.image_preview?.raw.split("ipfs://")[1]
             }`}
             alt="Token"
-            style={{height:'100px'}}
+            style={{ height: "100px" }}
           />
 
           {/* Display mint context data */}
