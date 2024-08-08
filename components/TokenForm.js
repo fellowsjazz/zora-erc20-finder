@@ -12,7 +12,7 @@ export default function TokenForm() {
         `/api/fetch-token?contractAddress=${contractAddress}&chain=${chain}&tokenId=${tokenId}`
       );
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setTokenData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -52,11 +52,14 @@ export default function TokenForm() {
       {/* Display fetched data */}
       {tokenData && (
         <div className="mt-4">
-          <h3>Token Name: {tokenData.mintable.token_name}</h3>
-          <p>Description: {tokenData.mintable.collection.description}</p>
+          <h3>Token Name: {tokenData?.mintable?.token_name}</h3>
+          <p>Description: {tokenData?.mintable?.collection?.description}</p>
           <img
-            src={tokenData.media.image_preview.encoded_thumbnail}
+            src={`https://magic.decentralized-content.com/ipfs/${
+              tokenData?.media?.image_preview?.raw.split("ipfs://")[1]
+            }`}
             alt="Token"
+            style={{height:'100px'}}
           />
 
           {/* Display mint context data */}
@@ -64,10 +67,18 @@ export default function TokenForm() {
             <div className="mt-2">
               <h4>Mint Context:</h4>
               <p>
-                Price: {tokenData?.mintable?.mint_context?.price_per_token / 1000000000000000000} ETH
+                Price:{" "}
+                {tokenData?.mintable?.mint_context?.price_per_token /
+                  1000000000000000000}{" "}
+                ETH
               </p>
-              <p>ERC20 Address: {tokenData?.mintable?.mint_context?.erc20_z_address}</p>
-              <p>Unipool {tokenData?.mintable?.mint_context?.uniswap_v3_pool}</p>
+              <p>
+                ERC20 Address:{" "}
+                {tokenData?.mintable?.mint_context?.erc20_z_address}
+              </p>
+              <p>
+                Unipool {tokenData?.mintable?.mint_context?.uniswap_v3_pool}
+              </p>
             </div>
           )}
         </div>
