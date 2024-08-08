@@ -9,17 +9,11 @@ export default function TokenForm() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `https://api.zora.co/discover/tokens/${chain.toUpperCase()}-MAINNET/${contractAddress}`
+        `/api/fetch-token?contractAddress=${contractAddress}&chain=${chain}&tokenId=${tokenId}`
       );
       const data = await response.json();
-      if (data.results && data.results.length >= tokenId) {
-        const token = data.results[tokenId - 1];
-        console.log("token data", token);
-        setTokenData(token);
-      } else {
-        console.error("Token ID out of bounds or no results found.");
-        setTokenData(null);
-      }
+      console.log(data)
+      setTokenData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -66,18 +60,14 @@ export default function TokenForm() {
           />
 
           {/* Display mint context data */}
-          {tokenData.mintable?.mint_context && (
+          {tokenData.mintable && (
             <div className="mt-2">
               <h4>Mint Context:</h4>
               <p>
-                Price: {tokenData.mintable.mint_context.price_per_token} ETH
+                Price: {tokenData?.mintable?.mint_context?.price_per_token / 1000000000000000000} ETH
               </p>
-              <p>
-                ERC20 Address: {tokenData.mintable.mint_context.erc20_z_address}
-              </p>
-              <p>
-                Unipool: {tokenData.mintable.mint_context.uniswap_v3_pool}
-              </p>
+              <p>ERC20 Address: {tokenData?.mintable?.mint_context?.erc20_z_address}</p>
+              <p>Unipool {tokenData?.mintable?.mint_context?.uniswap_v3_pool}</p>
             </div>
           )}
         </div>
